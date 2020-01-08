@@ -441,6 +441,18 @@ africa &lt;- read_csv(&quot;africadata.csv&quot;)  # works because this file is 
 ##   rail = col_double(),
 ##   road = col_double()
 ## )</code></pre>
+<pre class="r"><code># if you haven't downloaded this file and the data file, read from the internet instead:
+africa &lt;- read_csv(&quot;https://nuitrcs.github.io/mmss211R/africadata.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   country = col_character(),
+##   region = col_character(),
+##   gdp_2017 = col_double(),
+##   pop_2017 = col_double(),
+##   area = col_double(),
+##   rail = col_double(),
+##   road = col_double()
+## )</code></pre>
 <pre class="r"><code>africa</code></pre>
 <pre><code>## # A tibble: 53 x 7
 ##    country                region     gdp_2017 pop_2017    area  rail   road
