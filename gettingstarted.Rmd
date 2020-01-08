@@ -1,0 +1,187 @@
+---
+title: "Getting Started"
+author: "Christina Maimone"
+date: "1/10/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# RStudio Tour
+
+* What is RStudio
+* What are the different panes for?
+* Console
+  * up arrow for previous commands
+  * () for grouping `(3+1)\*4`
+  * Call a function: `round(2.1)`, `log(16)`, `round(log(16))`, `round(log(16), 2)`
+  * assign a value: `x <- 3` >> shows up in environment
+  * vector: `x <- c(1, 4, 3, 2, 5)`
+  * history
+  * case sensitive
+  * spaces don't matter
+  * line continuation, escaping
+  * Getting stuck with +
+* Files
+  * `getwd()`, `setwd()`
+  * Projects
+  * Send code from file to console
+    * Send a comment line and it sends the line below
+    * Sends a full command, even over multiple lines
+  * New Files
+    * Different types: R script, R Markdown, R Notebook
+    * Comment character
+  * Red, \* for files with unsaved changes
+* Packages
+  * installing
+  * loading
+
+
+Cheatsheet: under Help > Cheatsheets > Browse Cheatsheets
+
+# Do Something!
+
+## Get Data
+
+Import a data set.  Rows are observations, columns are variables.
+
+```{r}
+library(readr)  # makes importing data a bit easier
+
+africa <- read_csv("africadata.csv")  # works because this file is in my working directory
+
+africa
+```
+
+* What are the `NA` values in the rail column?
+* What are the numbers to the left of the country names?
+* What is a tibble?
+
+```{r, eval=FALSE}
+View(africa)
+```
+
+## Plot
+
+What is the distribution of country sizes?  Use the area variable (column).
+
+```{r}
+hist(africa$area, breaks=15)
+```
+
+Or, using `ggplot2` and `dplyr` packages (from the `tidyverse`):
+
+```{r}
+library(tidyverse)  # loads multiple packages, including ggplot2 and dplyr
+
+africa %>%
+  ggplot(aes(area)) + 
+  geom_histogram(bins=15)
+```
+
+* What is `%>%`?
+* Why is there a `+`?
+* What is `aes()`
+
+Why `ggplot2`?
+
+```{r}
+africa %>%
+  ggplot(aes(area)) + 
+  geom_histogram(bins=15) + 
+  facet_grid(region~.)
+```
+
+
+
+## Summarize
+
+```{r}
+mean(africa$area)
+mean(africa$rail)
+mean(africa$rail, na.rm=TRUE)
+summary(africa)
+```
+
+
+## Indexing
+
+You can select elements of R objects by index or name.  Index values start at 0:
+
+```{r}
+africa[1, "rail"]
+africa[1, 6]
+africa$rail[1]
+```
+
+You can also select with a vector `TRUE` and `FALSE` values the same length as the thing you're selecting from, or expressions that evaluate to `TRUE` and `FALSE`.
+
+```{r}
+africa$country == "Sudan"
+africa[africa$country == "Sudan", ]
+```
+
+Note the `==` for testing for equality, and leaving the index after , empty means to select all columns.
+
+```{r}
+africa[africa$road < mean(africa$road), c("country", "road")]  
+```
+
+Note to select multiple columns by name, we put them in a vector with `c()`.
+
+## Transformation
+
+We can use vectors (variables) in expressions, and also create new ones:
+
+```{r}
+africa$gdp_per_cap <- africa$gdp_2017/africa$pop_2017
+africa
+```
+
+# Documentation
+
+Not really "help."
+
+Basic functions: https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf
+
+See resources below.
+
+
+# Try It!
+
+1. Make a scatterplot of GDP vs. population using the africa data.  
+
+2. Which country in Africa has the largest road system (total km of roads)?
+
+3. Which country in Africa has the highest ratio of km of roads to area (area is in square km)?  
+
+
+# Resources
+
+## DataCamp Courses
+
+In addition to introductory/general R courses on DataCamp, there are a few courses with material that may be relevant to your course:
+
+* Linear regression: https://www.datacamp.com/courses/correlation-and-regression
+* Markov: https://www.datacamp.com/community/tutorials/markov-chain-analysis-r
+* Networks: https://www.datacamp.com/courses/network-analysis-in-r
+
+
+## Next Steps
+
+Two free, online books that use the tidyverse set of packages may be helpful to you:
+
+* https://moderndive.com/: the [getting started](https://moderndive.com/1-getting-started.html) chapter can be a good review of things we discussed
+* https://r4ds.had.co.nz/ 
+
+
+## Links to More Resources
+
+Example R Markdown files covering introductory R material: https://github.com/nuitrcs/intro_r_workshop/tree/master/corelecturenotes 
+
+Links to R Resources (and longer workshop materials): https://github.com/nuitrcs/rworkshops 
+
+
+## Additional Help 
+
+[Drop-in hours](https://www.it.northwestern.edu/research/consultation/data-services.html) - we won't help with your coursework, but you're welcome to come and ask questions about how to use R.
