@@ -50,6 +50,9 @@ library(readr)  # makes importing data a bit easier
 
 africa <- read_csv("africadata.csv")  # works because this file is in my working directory
 
+# if you haven't downloaded this file and the data file, read from the internet instead:
+africa <- read_csv("https://nuitrcs.github.io/mmss211R/africadata.csv")
+
 africa
 ```
 
