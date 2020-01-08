@@ -4,3 +4,5 @@ These materials are used for a very quick introduction to R that is focused on h
 
 For more complete introductory materials, see https://github.com/nuitrcs/rworkshops.
 
+HTML version of workshop file: https://nuitrcs.github.io/mmss211R/gettingstarted.html
+
