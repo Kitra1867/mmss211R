@@ -1,0 +1,126 @@
+---
+title: "Part 2"
+author: "Christina Maimone"
+date: "1/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Try It Answers
+
+From last time...
+
+1. Make a scatterplot of GDP vs. population using the africa data.  
+
+
+```{r}
+africa <- read.csv("https://nuitrcs.github.io/mmss211R/africadata.csv")
+plot(x=africa$pop_2017, y=africa$gdp_2017)
+```
+
+Alternate syntax:
+
+```{r, eval=FALSE}
+plot(gdp_2017 ~ pop_2017, data=africa)
+```
+
+
+
+2. Which country in Africa has the largest road system (total km of roads)?
+
+```{r}
+max(africa$road)
+africa[africa$road == max(africa$road),]
+```
+
+
+3. Which country in Africa has the highest ratio of km of roads to area (area is in square km)?  
+
+```{r}
+africa$road/africa$area
+max(africa$road/africa$area)
+africa$road_ratio <- africa$road/africa$area
+africa[africa$road_ratio == max(africa$road_ratio),]
+```
+
+
+
+# Regression
+
+Function for regression is `lm()`:
+
+```{r}
+lm(road ~ pop_2017 + gdp_2017, data=africa)
+```
+
+- `road` is the y (dependent) variable.
+- `lm()` automatically adds an intercept (constant) term
+- `pop_2017` and `gdp_2017` are independent/predictive/x variables
+
+The above doesn't give us much info.  Let's save the output:
+
+```{r}
+reg1 <- lm(road ~ pop_2017 + gdp_2017, data=africa)
+reg1
+```
+
+To get more info, use `summary`:
+
+```{r}
+summary(reg1)
+```
+
+If you need to access specific pieces of information from the results, there are two places it might be.  First, part of the regression object itself:
+
+```{r}
+names(reg1)
+reg1$coefficients
+```
+
+or part of the results of calling the summary function:
+
+```{r}
+names(summary(reg1))
+summary(reg1)$r.squared
+```
+
+If you plot the regression object, you get diagnostic plots.  Understanding how to interpret these is beyond the scope of this course.
+
+```{r}
+plot(reg1)
+```
+
+
+
+
+## Formula Syntax
+
+Symbol | Example | Description
+-------|-----------|----------------------------------
+`~` | `y ~ x1` | Defines the formula (necessary to create a formula object)
+`+` | `y ~ x1 + x2` | Include the variable
+`-` | `y ~ -1 +x1` | Delete a term, usually a 1 for the intercept
+`:` | `y ~ x1 + x1:x2` | Interaction term 
+`*` | `y ~ x1*x2` | Interaction between the variables and each individually; same as `y ~ x1 + x2 + x1:x2`
+`I()` | `y ~ I(x1^2)` | Wrapper for transforming variables without having to create a new variable
+
+There are additional symbols, but these are all of the ones I've actually used.
+
+
+```{r}
+reg2 <- lm(road ~ pop_2017 * gdp_2017, data=africa)
+summary(reg2)
+```
+
+
+
+
+# Resources
+
+* DataCamp courses cover regression in R
+* A quick run through: https://nuitrcs.github.io/intro_r_workshop/extratopics/basicstats.html
+* UCLA stats consulting: https://stats.idre.ucla.edu/other/dae/

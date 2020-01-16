@@ -6,3 +6,4 @@ For more complete introductory materials, see https://github.com/nuitrcs/rworksh
 
 HTML version of workshop file: https://nuitrcs.github.io/mmss211R/gettingstarted.html
 
+Part 2: https://nuitrcs.github.io/mmss211R/part2.html
